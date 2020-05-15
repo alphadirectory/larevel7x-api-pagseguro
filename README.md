@@ -27,7 +27,13 @@ Esta ferramenta contem uma biblioteca omolagada pela pagseguro.
 
 - Em seu env, configure as chever com prefixo PAGSEGURO
 
+#FRONT
 
+A pagSeguro conta com uma biblioteca de fronte que verifica e prepara os 
+dados do cliente para executar a transação
+
+Você pode ver todas as chamadas e como ela se comporta, em uma view localizada em:
+resources/views/exemplo-pagseguro.blade.php
 
 ### Payload
 

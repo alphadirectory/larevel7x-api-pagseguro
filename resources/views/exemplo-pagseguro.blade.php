@@ -2,6 +2,14 @@
 
 <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
 
+<!-- 
+SE ESTIVER EM PRODUCAO:
+<script 
+  type="text/javascript" 
+  src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"
+></script>
+-->
+
 <script>
   init();
   setHash();
