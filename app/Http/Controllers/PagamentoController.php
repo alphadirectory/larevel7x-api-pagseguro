@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Providers\ServiceProvider;
 use App\Models\PagamentosRegistrados;
@@ -33,13 +34,13 @@ class PagamentoController extends Controller
     public function monitorarTransacao($idPagamentoBancoLocal)
     {
         $pagamento = PagamentosRegistrados::find($idPagamentoBancoLocal);
-        
+
         $transacao =  $this->service->getStatus([
             'email' => $this->credenciais()->getEmail(),
             'token' => $this->credenciais()->getToken(),
             'code' => json_decode($pagamento->log)->code
         ]);
-        
+
         $transacao = simplexml_load_string($transacao);
 
         $status_db = PagseguroTransacoesStatus::fetchByStatus($transacao->status);
@@ -49,31 +50,25 @@ class PagamentoController extends Controller
             'transacao' => $transacao
         ], 200);
     }
+
     public function store(Request $request)
     {
         try {
-            if ($request->tipo == "credito") {
-                return response()->json(
-                    $this->credito($request),
-                    200
-                );
-            }
-            if ($request->tipo == "boleto") {
-                return response()->json(
-                    $this->boleto($request),
-                    200
-                );
-            }
-            if ($request->tipo == "debito") {
-                return response()->json(
-                    $this->debito($request),
-                    200
-                );
-            }
-            throw new Exception("Modo de pagamento não indentificado");
+            return response()->json(
+                $this->optDePagamentos($request->tipo, $request),
+                200
+            );
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 400);
         }
+    }
+
+    private function optDePagamentos($key, $request)
+    {
+        if ($key == 'credito') return $this->credito($request);
+        if ($key == 'debito') return $this->debito($request);
+        if ($key == 'boleto') return $this->boleto($request);
+        throw new Exception('MÉTODO DE PAGAMENTO INVÁLIDO!');
     }
 
     private function boleto($request)
@@ -168,7 +163,12 @@ class PagamentoController extends Controller
 
     private function setRefencias($modo)
     {
-        return date('dmY') . "-{$modo}-" . rand();
+        $data = Carbon::now(new \DateTimeZone('America/Fortaleza'))->toDateTimeString();;
+		$rand = rand();
+        $referencia = "[{$modo}]";
+		$referencia .= "[aleatorio={$rand}]";
+		$referencia .= "[registrado_em={$data}]";
+		return $referencia;
     }
 
     private function setVariables($data, $request, $referencia)
