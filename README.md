@@ -9,9 +9,7 @@ Comando usado para instalar:
 seguindo o projeto homologado pela propria  pagSeguro. Veja a documentação:
 https://github.com/pagseguro/pagseguro-php-sdk
 
-**OBS.: ** Seu projeto já configurado. Os dados acima são apenas pra conhecimento.
-
-Esta ferramenta contem uma biblioteca omolagada pela pagseguro.
+**OBS.: ** Seu projeto já está configurado. Os dados acima são apenas pra conhecimento.
 
 
 ### instalação
@@ -20,19 +18,19 @@ Esta ferramenta contem uma biblioteca omolagada pela pagseguro.
 
 - Crie um arquivo .env e copie o modelo encontrado em exemple.env
 
-- Configue os apontamentos paga o banco de dados
+- Configure os apontamentos para o seu banco de dados
 
 - Execute a migração
 `php artisan migrate:fresh`
 
-- Em seu env, configure as chever com prefixo PAGSEGURO
+- Em seu env, configure as cheves com prefixo PAGSEGURO
 
 #FRONT
 
-A pagSeguro conta com uma biblioteca de fronte que verifica e prepara os 
+A pagSeguro conta com uma biblioteca de front que verifica e prepara os 
 dados do cliente para executar a transação
 
-Você pode ver todas as chamadas e como ela se comporta, em uma view localizada em:
+Você pode ver todas as chamadas e como elas se comportam, em uma view localizada em:
 resources/views/exemplo-pagseguro.blade.php
 
 ### Payload
